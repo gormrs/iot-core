@@ -59,7 +59,6 @@ public class MqttClientWrapper implements MqttCallback {
 
     @Override
     public void connectionLost(Throwable cause) {
-        System.out.println("Connection lost: " + cause.getMessage());
         cause.printStackTrace();
     }
 
@@ -101,9 +100,6 @@ public class MqttClientWrapper implements MqttCallback {
             e.printStackTrace();
         }
     }
-
-
-
 
 
     @Override

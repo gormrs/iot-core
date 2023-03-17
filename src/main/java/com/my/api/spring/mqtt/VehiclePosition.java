@@ -76,11 +76,53 @@ public class VehiclePosition {
         this.occu = occu;
     }
 
+    @Override
+    public String toString() {
+        return "VehiclePosition{" +
+                "desi='" + desi + '\'' +
+                ", dir='" + dir + '\'' +
+                ", oper=" + oper +
+                ", veh=" + veh +
+                ", tst='" + tst + '\'' +
+                ", tsi=" + tsi +
+                ", spd=" + spd +
+                ", hdg=" + hdg +
+                ", lat=" + lat +
+                ", longitude=" + longitude +
+                ", acc=" + acc +
+                ", dl=" + dl +
+                ", odo=" + odo +
+                ", drst=" + drst +
+                ", oday='" + oday + '\'' +
+                ", jrn=" + jrn +
+                ", line=" + line +
+                ", start='" + start + '\'' +
+                ", loc='" + loc + '\'' +
+                ", stop='" + stop + '\'' +
+                ", route='" + route + '\'' +
+                ", occu=" + occu +
+                '}';
+    }
+
     public String getDesi() {
         return desi;
     }
     public long getTsi() {
         return tsi;
     }
+    public double[] getCoordinates() {
+        return new double[] {this.lat, this.longitude};
+    }
 
+
+    public void setVeh(int veh) {
+        this.veh = veh;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 }

@@ -74,26 +74,34 @@ public class MqttClientWrapper implements MqttCallback {
             int veh = root.path("VP").path("veh").asInt();
             String oper_veh = String.format("%d_%d", oper, veh);
 
+            // Deserialize the JSON message into a VehiclePosition object
+            VehiclePosition currentVehiclePosition = mapper.readValue(root.path("VP").toString(), VehiclePosition.class);
+
             // Check if document exists
-            JsonNode compareToRoot = session.load(JsonNode.class, oper_veh);
-            if (compareToRoot != null) {
-                // check if it is less recent than message
-                if (compareToRoot.path("VP").path("tst").asLong() > root.path("VP").path("tst").asLong()) {
+            VehiclePosition existingVehiclePosition = session.load(VehiclePosition.class, oper_veh);
+            if (existingVehiclePosition != null) {
+                // Check if the existing document is less recent than the received message
+                if (existingVehiclePosition.getTsi() > currentVehiclePosition.getTsi()) {
                     // Document is more recent than message, do not save
                     System.out.println("Document is more recent than message, not saving");
                     return;
                 } else {
                     // Document is less recent than message, save
                     System.out.println("Document is less recent than message, saving");
-                    session.advanced().evict(compareToRoot); // Evict the existing document from the session
-                    session.store(root, oper_veh);
+                    session.advanced().evict(existingVehiclePosition); // Evict the existing document from the session
+                    session.store(currentVehiclePosition, oper_veh);
                     session.saveChanges();
                 }
+            } else {
+                // If no existing document is found, store the new VehiclePosition
+                session.store(currentVehiclePosition, oper_veh);
+                session.saveChanges();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
 
 

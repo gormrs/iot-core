@@ -30,4 +30,17 @@ public class VehicleController {
         System.out.println("ping");
         return "pong";
     }
+
+    @GetMapping("/{longitude}/{latitude}")
+    public String getVehiclesInRadius(@PathVariable double longitude, @PathVariable double latitude) {
+        try (IDocumentSession session = DocumentStoreHolder.getStore().openSession()) {
+            return session.advanced().rawQuery(JsonNode.class, "from * where spatial.within(Coordinates, spatial.circle($longitude, $latitude, 1000))")
+                    .addParameter("longitude", longitude)
+                    .addParameter("latitude", latitude)
+                    .toList().toString();
+        }
+    }
+
+
 }
+

@@ -29,6 +29,17 @@ A step by step series of examples that tell you how to get a development env run
 6. Open your browser and go to ```http://localhost:8080/```
 7. Enjoy!
 
+## running in docker
+
+1. Clone the repository
+2. Open the project in your favorite IDE
+3. Change raven server in to match your url or localhost port
+4. Run the ```RavenDB``` server
+5. Build the project in docker
+6. Run the project in docker docker run -d -p 8080:8080  my-spring-app
+7. Open your browser and go to ```http://localhost:8080/```
+8. Enjoy!
+
 ## Get commands to try
 
 http://localhost:8080/api/vehicles/${latitude}/${longitude} Input a latitude an get busses in 1km radius

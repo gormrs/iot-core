@@ -4,11 +4,15 @@ package com.my.api.spring;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.my.api.spring.document.DocumentStoreHolder;
 import com.my.api.spring.mqtt.VehiclePosition;
+import net.ravendb.client.documents.queries.spatial.PointField;
 import net.ravendb.client.documents.session.IDocumentSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/vehicles")
@@ -34,17 +38,38 @@ public class VehicleController {
         return "pong";
     }
 
-    @GetMapping("/{longitude}/{latitude}")
-    public String getVehiclesInRadius(@PathVariable double longitude, @PathVariable double latitude) {
+    @GetMapping("/{latitude}/{longitude}")
+    public String getVehiclesInRadius(@PathVariable double latitude, @PathVariable double longitude) {
+        DistanceCalculator distanceCalculator = new DistanceCalculator();
+        List<String> closestVehicles = new ArrayList<>();
         try (IDocumentSession session = DocumentStoreHolder.getStore().openSession()) {
-            return session.advanced().rawQuery(JsonNode.class, "from * where spatial.within(getCoordinates(), spatial.circle($longitude, $latitude, 1000))")
-                    .addParameter("longitude", longitude)
-                    .addParameter("latitude", latitude)
-                    .toList().toString();
+            List<VehiclePosition> results = session
+                    .query(VehiclePosition.class)
+                    .spatial(new PointField("lat", "long"),
+                            criteria -> criteria.withinRadius(1, latitude, longitude)) // 1km radius
+                    .toList();
+
+
+            for (VehiclePosition result : results) {
+                double distance = distanceCalculator.distance(latitude, longitude, result.getLat(), result.getLongitude());
+
+                closestVehicles.add(String.format("Vehicle ID: %s, Distance: %.2f km, Next Stop: %s, Timestamp: %d\n",
+                        result.getId(), distance, result.getNextStop(), result.getTsi()));
+
+            }
+
+
+            return closestVehicles.toString();
+
+
+
+
         }
     }
-
-
-
 }
+
+
+
+
+
 

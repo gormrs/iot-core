@@ -47,6 +47,7 @@ public class VehiclePosition {
     private String route;
     @JsonProperty("occu")
     private int occu;
+    private String nextStop;
 
     public VehiclePosition() {
     }
@@ -110,10 +111,12 @@ public class VehiclePosition {
     public long getTsi() {
         return tsi;
     }
-    public double[] getCoordinates() {
-        return new double[] {this.lat, this.longitude};
+    public double getLat() {
+        return lat;
     }
-
+    public double getLongitude() {
+        return longitude;
+    }
 
     public void setVeh(int veh) {
         this.veh = veh;
@@ -124,5 +127,15 @@ public class VehiclePosition {
     }
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getId() {
+        return oper + "-" + veh;
+    }
+    public String  getNextStop() {
+        return nextStop;
+    }
+    public void setNextStop(String nextStop) {
+        this.nextStop = nextStop;
     }
 }

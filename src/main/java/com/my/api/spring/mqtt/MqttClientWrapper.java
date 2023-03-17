@@ -11,6 +11,8 @@ import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MqttClientWrapper implements MqttCallback {
     private MqttClient client;
@@ -65,7 +67,6 @@ public class MqttClientWrapper implements MqttCallback {
 
     @Override
     public void messageArrived(String topic, MqttMessage message) {
-        // System.out.println("Message arrived on topic " + topic + ": " + new String(message.getPayload()));
         ObjectMapper mapper = new ObjectMapper();
         try (IDocumentSession session = DocumentStoreHolder.getStore().openSession()) {
             JsonNode root = mapper.readTree(message.toString());
@@ -73,8 +74,14 @@ public class MqttClientWrapper implements MqttCallback {
             int veh = root.path("VP").path("veh").asInt();
             String oper_veh = String.format("%d_%d", oper, veh);
 
+            // Extract the nextStop value from the topic URL
+            String nextStop = getNextStopFromUrl(topic);
+
             // Deserialize the JSON message into a VehiclePosition object
             VehiclePosition currentVehiclePosition = mapper.readValue(root.path("VP").toString(), VehiclePosition.class);
+
+            // Set the nextStop value on the VehiclePosition object
+            currentVehiclePosition.setNextStop(nextStop);
 
             // Check if document exists
             VehiclePosition existingVehiclePosition = session.load(VehiclePosition.class, oper_veh);
@@ -82,11 +89,9 @@ public class MqttClientWrapper implements MqttCallback {
                 // Check if the existing document is less recent than the received message
                 if (existingVehiclePosition.getTsi() > currentVehiclePosition.getTsi()) {
                     // Document is more recent than message, do not save
-                    System.out.println("Document is more recent than message, not saving");
                     return;
                 } else {
                     // Document is less recent than message, save
-                    System.out.println("Document is less recent than message, saving");
                     session.advanced().evict(existingVehiclePosition); // Evict the existing document from the session
                     session.store(currentVehiclePosition, oper_veh);
                     session.saveChanges();
@@ -100,6 +105,23 @@ public class MqttClientWrapper implements MqttCallback {
             e.printStackTrace();
         }
     }
+
+    // Helper method to extract the nextStop value from the topic URL
+    private String getNextStopFromUrl(String topicUrl) {
+        // Define a regular expression pattern to match the nextStop query parameter
+        Pattern pattern = Pattern.compile("/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/([^/]+)/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+");
+        // Match the pattern against the topic URL
+        Matcher matcher = pattern.matcher(topicUrl);
+
+        // If a match is found, return the nextStop value
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        // If no match is found, return null
+        return null;
+    }
+
 
 
     @Override

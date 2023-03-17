@@ -12,6 +12,6 @@ RUN mvn -e -X clean package
 
 
 
-FROM openjdk:11-jre-slim
+FROM openjdk:19-alpine
 COPY --from=build /spring/target/*.jar app.jar
 CMD ["java", "-jar", "app.jar"]

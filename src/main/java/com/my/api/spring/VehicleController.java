@@ -1,7 +1,6 @@
 package com.my.api.spring;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.my.api.spring.document.DocumentStoreHolder;
 import com.my.api.spring.mqtt.VehiclePosition;
 import net.ravendb.client.documents.queries.spatial.PointField;

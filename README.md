@@ -17,6 +17,8 @@ What things you need to install the software and how to install them
 
 ```Maven``` - https://maven.apache.org/install.html
 
+```Docker``` - https://docs.docker.com/get-docker/
+
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running
@@ -54,4 +56,4 @@ I wanted to make the project in Java and decided to use Paho for my MQTT client.
 To try and add more data to the output I imported a haversine formula to calculate how far away the bus is. For the bus_stop i sent the id to the user and assumed the app would have a map of ids and names
 After I was finished making the project I added docker support to make it easier to run.
 
-I hope this helps! Let me know if you have any further questions.
+I hope this helps! Let me know if you have any further questions. Either here on GitHub or by email: gormrs@gmail.com

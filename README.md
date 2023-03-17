@@ -29,7 +29,7 @@ A step by step series of examples that tell you how to get a development env run
 6. Open your browser and go to ```http://localhost:8080/```
 7. Enjoy!
 
-## running in docker
+## Running in Docker
 
 1. Clone the repository
 2. Open the project in your favorite IDE
@@ -50,6 +50,7 @@ http://localhost:8080/api/vehicles/6_647 Gives you the data of an Bus
 
 ## My Assumptions and Thoughts
 I wanted to make the project in Java and decided to use Paho for my MQTT client. To make the API searchable, I decided to use HTTP and Java Spring Boot. For the database, I had no real preference but saw that ABAX mentioned RavenDB as their solution, so I decided to use that. I have never used RavenDB before, so I had to learn how to use it. For the return of the data, I chose to use a string for demonstration purposes.
+to try and add more data to the output I imported a haversine formula to calculate how far away the bus is
 After I was finished making the project I added docker support to make it easier to run.
 
 I hope this helps! Let me know if you have any further questions.

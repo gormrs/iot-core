@@ -48,8 +48,8 @@ http://localhost:8080/api/vehicles/ping Test if you can get data
 
 http://localhost:8080/api/vehicles/6_647 Gives you the data of an Bus
 
-## My assumptions and thoughts
+## My Assumptions and Thoughts
+I wanted to make the project in Java and decided to use Paho for my MQTT client. To make the API searchable, I decided to use HTTP and Java Spring Boot. For the database, I had no real preference but saw that ABAX mentioned RavenDB as their solution, so I decided to use that. I have never used RavenDB before, so I had to learn how to use it. For the return of the data, I chose to use a string for demonstration purposes.
+After I was finished making the project I added docker support to make it easier to run.
 
-I first wanted to make the project in Java, so i decide on using Paho for my mqtt client, for making the Api searchable decide i
-to use http and java spring boot for the Api. For the database i had no real prefrencese the I saw ABAX mention ravenDB as their solution's so
-i decided to use that. I have never used ravenDB before so i had to learn how to use it. For the return of the data i chose to use a string for demonstration
+I hope this helps! Let me know if you have any further questions.

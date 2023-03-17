@@ -34,6 +34,7 @@ public class VehicleController {
 
     @GetMapping("/ping")
     public String pingPong() {
+        // for testing purposes
         System.out.println("ping");
         return "pong";
     }
@@ -45,7 +46,7 @@ public class VehicleController {
         try (IDocumentSession session = DocumentStoreHolder.getStore().openSession()) {
             List<VehiclePosition> results = session
                     .query(VehiclePosition.class)
-                    .spatial(new PointField("lat", "long"),
+                    .spatial(new PointField("lat", "long"), // checks if the vehicle is within the radius
                             criteria -> criteria.withinRadius(1, latitude, longitude)) // 1km radius
                     .toList();
 
@@ -58,8 +59,11 @@ public class VehicleController {
 
             }
 
+            if (closestVehicles.isEmpty()) {
+                return "No vehicles found in radius";
+            }
 
-            return closestVehicles.toString();
+            return closestVehicles.toString(); // returns as string for easy reading, should eventually return as json
 
 
 

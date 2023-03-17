@@ -5,11 +5,7 @@ WORKDIR /spring
 COPY pom.xml ./
 COPY src ./src
 
-
-
 RUN mvn -e -X clean package
-
-
 
 
 FROM openjdk:19-alpine

@@ -29,12 +29,12 @@ public class MqttClientWrapper implements MqttCallback {
             options.setKeepAliveInterval(30);
             client.setCallback(this); // Set the callback
             client.connect(options);
-            System.out.println("Connected to MQTT broker at " + client.getServerURI());
+
 
             // Subscribe to the topic
             int qos = 2;
             client.subscribe(significant_vehicle_pos, qos);
-            System.out.println("Subscribed to topic: " + significant_vehicle_pos);
+
 
 
         } catch (MqttException e) {
@@ -74,16 +74,15 @@ public class MqttClientWrapper implements MqttCallback {
             int veh = root.path("VP").path("veh").asInt();
             String oper_veh = String.format("%d_%d", oper, veh);
 
-            // Extract the nextStop value from the topic URL
+            // Extract the nextStop value from the topic URL, since it is not included in the message
             String nextStop = getNextStopFromUrl(topic);
 
             // Deserialize the JSON message into a VehiclePosition object
             VehiclePosition currentVehiclePosition = mapper.readValue(root.path("VP").toString(), VehiclePosition.class);
 
-            // Set the nextStop value on the VehiclePosition object
+
             currentVehiclePosition.setNextStop(nextStop);
 
-            // Check if document exists
             VehiclePosition existingVehiclePosition = session.load(VehiclePosition.class, oper_veh);
             if (existingVehiclePosition != null) {
                 // Check if the existing document is less recent than the received message
@@ -108,7 +107,7 @@ public class MqttClientWrapper implements MqttCallback {
 
     // Helper method to extract the nextStop value from the topic URL
     private String getNextStopFromUrl(String topicUrl) {
-        // Define a regular expression pattern to match the nextStop query parameter
+        // Only extract the nextStop value from the topic URL
         Pattern pattern = Pattern.compile("/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/([^/]+)/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+");
         // Match the pattern against the topic URL
         Matcher matcher = pattern.matcher(topicUrl);
@@ -126,7 +125,7 @@ public class MqttClientWrapper implements MqttCallback {
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
-        // Not used in this code test
+        // Not used in this code test, part of interface
     }
 
 

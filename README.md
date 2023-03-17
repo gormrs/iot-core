@@ -30,7 +30,8 @@ A step by step series of examples that tell you how to get a development env run
 7. Enjoy!
 
 ## Get commands to try
-GET command http://localhost:8080/api/vehicles/${latitude}/${longitude} Input a latitude an get busses in 1km radius
+
+http://localhost:8080/api/vehicles/${latitude}/${longitude} Input a latitude an get busses in 1km radius
 
 http://localhost:8080/api/vehicles/ping Test if you can get data
 

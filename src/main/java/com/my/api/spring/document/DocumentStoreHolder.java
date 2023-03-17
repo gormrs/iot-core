@@ -7,7 +7,7 @@ public class DocumentStoreHolder {
 
     private static class DocumentStoreContainer {
         public static final IDocumentStore store =
-                new DocumentStore("http://localhost:8081", "HSL");
+                new DocumentStore("http://host.docker.internal:8081", "HSL");
 
         static {
             store.initialize();

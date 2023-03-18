@@ -109,12 +109,10 @@ public class MqttClientWrapper implements MqttCallback {
         // Match the pattern against the topic URL
         Matcher matcher = pattern.matcher(topicUrl);
 
-        // If a match is found, return the nextStop value
         if (matcher.find()) {
             return matcher.group(1);
         }
 
-        // If no match is found, return null
         return null;
     }
 

@@ -5,6 +5,7 @@ import com.my.api.spring.document.DocumentStoreHolder;
 import com.my.api.spring.mqtt.VehiclePosition;
 import net.ravendb.client.documents.queries.spatial.PointField;
 import net.ravendb.client.documents.session.IDocumentSession;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,7 @@ public class VehicleController {
         System.out.println("ping");
         return "pong";
     }
+
 
     @GetMapping("/{latitude}/{longitude}")
     public String getVehiclesInRadius(@PathVariable double latitude, @PathVariable double longitude) {

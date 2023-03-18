@@ -1,3 +1,5 @@
+package com.my.api.spring.mqtt;
+
 import com.my.api.spring.mqtt.MqttClientWrapper;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.junit.After;

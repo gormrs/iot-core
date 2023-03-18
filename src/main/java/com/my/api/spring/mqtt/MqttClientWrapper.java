@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/** @noinspection SpellCheckingInspection, SpellCheckingInspection, SpellCheckingInspection, SpellCheckingInspection */
 public class MqttClientWrapper implements MqttCallback {
     private MqttClient client;
     final String brokerUrl = "tcp://mqtt.hsl.fi:1883"; // no tls for this port, cant be used in prod
@@ -67,6 +68,8 @@ public class MqttClientWrapper implements MqttCallback {
         ObjectMapper mapper = new ObjectMapper();
         try (IDocumentSession session = DocumentStoreHolder.getStore().openSession()) {
             JsonNode root = mapper.readTree(message.toString());
+
+            // Extract oper-veh to make unique id
             int oper = root.path("VP").path("oper").asInt();
             int veh = root.path("VP").path("veh").asInt();
             String oper_veh = String.format("%d_%d", oper, veh);

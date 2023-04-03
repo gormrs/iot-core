@@ -3,6 +3,9 @@
 Take home coding assignment
 
 
+## Intro
+This is a Java-based IoT project that utilizes data from HSL (Helsinki public transport) and incorporates Spring for API handling and Apache PAHO for MQTT client. RavenDB is utilized for data storage.
+
 ## Getting Started
 
 How to get a copy to run on your local machine for development and testing purposes.

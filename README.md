@@ -1,6 +1,6 @@
-# abax-iot-core
+# iot-core
 
-My take home coding assignment
+Take home coding assignment
 
 
 ## Getting Started
@@ -57,9 +57,3 @@ http://localhost:8080/api/vehicles/{latitude}/{longitude} Input a latitude and l
 
 http://localhost:8080/api/vehicles/6_647 Gives you the data of a bus with id 6_647 (may not have data yet, if not choose at will from ravenDB)
 
-## My Assumptions and Thoughts
-I developed the project in Java, utilizing Paho as my MQTT client. For the API reachability, I chose to implement HTTP and Java Spring Boot. As for the database, I did not have a particular preference but noticed that ABAX mentioned RavenDB in the job description, so I decided to use that. To enhance the data output, I imported a haversine formula to calculate the distance of the bus from the user's location. For the bus_stop, I passed the ID to the user, assuming that the application would have a map of IDs and names.
-Once the project was completed, I added Docker support to facilitate ease of use.
-The main limitation of the project is that I used MQTT without TLS, which exposes the user to privacy breaches
-
-I hope this helps! Let me know if you have any further questions. Either here on GitHub or by email: gormrs@gmail.com
